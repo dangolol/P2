@@ -8,6 +8,7 @@ CITY_DATA = {'chicago': 'chicago.csv',
 MONTHS = ['all', 'january', 'february', 'march', 'april', 'may', 'june']
 WEEKDAYS = ['all', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
 
+# Data columns:  Start Time, End Time, Trip Duration, Start Station, End Station, User Type, Gender, Birth Year
 
 def get_filters():
     """
@@ -108,7 +109,7 @@ def time_stats(df, month, day):
     # display the most common month
     if month == 'all':
         popular_month = df['month'].mode()[0]
-        print('Most Frequent Month:', popular_month)
+        print('Most Frequent Month:', MONTHS[popular_month].title())
 
     # display the most common day of week
     if day == 'all':
@@ -140,7 +141,9 @@ def station_stats(df):
 
     # display most frequent combination of start station and end station trip
     popular_combination_station = (df['Start Station'] + '|' + df['End Station']).mode()[0]
-    print('Most Frequent combination Station: \nStart: ' + popular_combination_station.split('|')[0] + '\nEnd: ' + popular_combination_station.split('|')[1])
+    print('Most Frequent combination Station: \n    Start: '
+          + popular_combination_station.split('|')[0] + '\n    End: '
+          + popular_combination_station.split('|')[1])
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-' * 40)
@@ -152,25 +155,37 @@ def trip_duration_stats(df):
     print('\nCalculating Trip Duration...\n')
     start_time = time.time()
 
-    # TODO: display total travel time
+    # display total travel time
+    total_travel_time = df['Trip Duration'].sum()
+    print('User Total Travel Time: %ds' % total_travel_time)
 
-    # TODO: display mean travel time
+    # display mean travel time
+    average_travel_time = df['Trip Duration'].mean()
+    print('User Average Travel Time: %ds' % average_travel_time)
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-' * 40)
 
 
-def user_stats(df):
+def user_stats(df, city):
     """Displays statistics on bikeshare users."""
 
     print('\nCalculating User Stats...\n')
     start_time = time.time()
 
-    # TODO: Display counts of user types
+    # Display counts of user types
+    for key in df['User Type'].unique():
+        print('Counts of %s : %d' % (key, df['User Type'].value_counts()[key]))
 
-    # TODO: Display counts of gender
+    # Display counts of gender
+    if city != 'washington':
+        print('\nCounts of Male : %d' % df['Gender'].value_counts()['Male'])
+        print('Counts of Female : %d' % df['Gender'].value_counts()['Female'])
 
     # TODO: Display earliest, most recent, and most common year of birth
+        print('\nThe Earliest Year of Birth: ', int(df['Birth Year'].min()))
+        print('The Most Recent Year of Birth: ', int(df['Birth Year'].max()))
+        print('The Most Common Year of Birth: ', int(df['Birth Year'].mode()[0]))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-' * 40)
@@ -183,8 +198,8 @@ def main():
 
         time_stats(df, month, day)
         station_stats(df)
-        #trip_duration_stats(df)
-        #user_stats(df)
+        trip_duration_stats(df)
+        user_stats(df, city)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
