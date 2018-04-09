@@ -18,12 +18,14 @@ def get_filters():
     """
     print('Hello! Let\'s explore some US bikeshare data!')
 
+
     # TODO: get user input for city (chicago, new york city, washington).
     # HINT: Use a while loop to handle invalid inputs
 
     # TODO: get user input for month (all, january, february, ... , june)
 
     # TODO: get user input for day of week (all, monday, tuesday, ... sunday)
+
 
     print('-'*40)
     return city, month, day
@@ -50,6 +52,7 @@ def time_stats(df):
     print('\nCalculating The Most Frequent Times of Travel...\n')
     start_time = time.time()
 
+
     # TODO: display the most common month
 
     # TODO: display the most common day of week
@@ -71,6 +74,7 @@ def station_stats(df):
     # TODO: display most commonly used end station
 
     # TODO: display most frequent combination of start station and end station trip
+
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -102,6 +106,7 @@ def user_stats(df):
 
     # TODO: Display earliest, most recent, and most common year of birth
 
+
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
@@ -123,3 +128,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
